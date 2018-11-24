@@ -54,4 +54,10 @@
                 android:id="@+id/song_details_share"/>
     </android.support.constraint.ConstraintLayout>
 
+
+    <include
+            android:id="@+id/error_view"
+            layout="@layout/view_error"
+            android:visibility="gone"/>
+
 </FrameLayout>

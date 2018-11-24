@@ -6,10 +6,16 @@
         android:layout_height="match_parent"
         tools:context=".presentation.search.SearchActivity">
 
+    <include
+            android:id="@+id/welcome_view"
+            layout="@layout/view_welcome"
+    />
+
     <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/search_swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/search_list"
@@ -17,5 +23,15 @@
                 android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include
+            android:id="@+id/empty_view"
+            layout="@layout/view_empty"
+            android:visibility="gone"/>
+
+    <include
+            android:id="@+id/error_view"
+            layout="@layout/view_error"
+            android:visibility="gone"/>
 
 </FrameLayout>

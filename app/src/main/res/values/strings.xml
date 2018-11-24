@@ -6,4 +6,13 @@
     <string name="price">Price</string>
     <string name="genre">Genre</string>
     <string name="song_length">Song Length</string>
+    <string name="error_header">Opps</string>
+    <string name="error_description">There was an error</string>
+    <string name="empty_message">Looks like you found the end of the internet.\n
+        Please try another search phrase.
+    </string>
+    <string name="welcome_description">Hello there! \n You can start browsing the song library by using the search icon
+        up
+        there.
+    </string>
 </resources>

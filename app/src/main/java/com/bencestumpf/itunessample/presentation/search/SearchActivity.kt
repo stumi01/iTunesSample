@@ -23,6 +23,15 @@ import com.bencestumpf.itunessample.presentation.search.SearchView as InnerSearc
 
 class SearchActivity : MVPActivity<SearchPresenter, InnerSearchView>(), InnerSearchView {
 
+    @BindView(R.id.welcome_view)
+    lateinit var welcomeView: View
+
+    @BindView(R.id.empty_view)
+    lateinit var emptyView: View
+
+    @BindView(R.id.error_view)
+    lateinit var errorView: View
+
     @BindView(R.id.search_swipeRefresh)
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -84,8 +93,27 @@ class SearchActivity : MVPActivity<SearchPresenter, InnerSearchView>(), InnerSea
     }
 
     override fun showLoading() {
+        welcomeView.visibility = View.GONE
+        emptyView.visibility = View.GONE
+        errorView.visibility = View.GONE
         swipeRefreshLayout.isRefreshing = true
         swipeRefreshLayout.visibility = View.VISIBLE
+    }
+
+    override fun showError() {
+        swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout.visibility = View.GONE
+        welcomeView.visibility = View.GONE
+        emptyView.visibility = View.GONE
+        errorView.visibility = View.VISIBLE
+    }
+
+    override fun showEmpty() {
+        swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout.visibility = View.GONE
+        welcomeView.visibility = View.GONE
+        errorView.visibility = View.GONE
+        emptyView.visibility = View.VISIBLE
     }
 
     override fun showContent(data: List<Song>) {

@@ -25,7 +25,7 @@ class SongDataStore @Inject constructor(private val apiService: ITunesApiService
     private fun mapRepo(model: SongResultResponseModel): Song =
         Song(
             model.trackId,
-            model.trackName,
+            model.trackName.orEmpty(),
             model.trackTimeMillis,
             model.trackPrice,
             model.currency,

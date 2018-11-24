@@ -22,13 +22,12 @@ class SearchPresenter @Inject constructor(
     }
 
     private fun onError(error: Throwable) {
-        Log.d("STUMI", "On Error")
+        Log.e(SearchPresenter::class.java.simpleName, "ERROR", error)
+        view?.showError()
     }
 
     private fun onDataArrived(data: List<Song>) {
-        Log.d("STUMI", "onDataArrived $data")
-        view?.showContent(data)
-
+        if (data.isEmpty()) view?.showEmpty() else view?.showContent(data)
     }
 
     fun onSongClick(songID: Long) {

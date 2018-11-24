@@ -18,7 +18,7 @@ interface ITunesApiService {
 data class SearchResponseModel(val resultCount: Int, val results: List<SongResultResponseModel>)
 
 data class SongResultResponseModel(
-    val trackId: Long, val trackName: String, val trackTimeMillis: Long, val trackPrice: Float, val currency: String,
+    val trackId: Long, val trackName: String?, val trackTimeMillis: Long, val trackPrice: Float, val currency: String,
     val artistName: String, val previewUrl: String, val collectionName: String, val artworkUrl30: String,
     val artworkUrl100: String, val releaseDate: Date, val primaryGenreName: String
 )
