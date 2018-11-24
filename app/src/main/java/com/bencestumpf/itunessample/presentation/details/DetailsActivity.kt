@@ -1,6 +1,7 @@
 package com.bencestumpf.itunessample.presentation.details
 
 import android.support.v4.app.ShareCompat
+import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
@@ -14,6 +15,11 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
     companion object {
         const val EXTRA_SONG_ID = "EXTRA_SONG_ID"
     }
+
+    @BindView(R.id.error_view)
+    lateinit var errorView: View
+    @BindView(R.id.content_view)
+    lateinit var content: View
 
     @BindView(R.id.song_details_title)
     lateinit var title: TextView
@@ -40,10 +46,14 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
     override fun getView(): DetailsView = this
 
     override fun showError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        content.visibility = View.GONE
+        errorView.visibility = View.VISIBLE
     }
 
     override fun showContent(song: Song) {
+        errorView.visibility = View.GONE
+        content.visibility = View.VISIBLE
+
         title.text = song.title
         album.text = song.album
         artist.text = song.artistName

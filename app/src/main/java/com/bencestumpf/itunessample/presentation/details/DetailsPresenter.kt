@@ -34,7 +34,8 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
     }
 
     private fun onError(thorwable: Throwable) {
-        Log.d("STUMI", "Some error", thorwable)
+        Log.e(DetailsPresenter::class.java.simpleName, "ERROR", thorwable)
+        view?.showError()
     }
 
     fun onPreviousClick() {
