@@ -32,6 +32,7 @@ class SongDataStore @Inject constructor(private val apiService: ITunesApiService
             model.artistName,
             model.previewUrl,
             model.collectionName,
+            model.artworkUrl30,
             model.artworkUrl100,
             model.releaseDate,
             model.primaryGenreName

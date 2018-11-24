@@ -63,6 +63,7 @@ class SearchActivity : MVPActivity<SearchPresenter, InnerSearchView>(), InnerSea
 
     private fun handleSearchIntentIfExists(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
+            invalidateOptionsMenu()
             val query = intent.getStringExtra(SearchManager.QUERY)
             presenter.doSearch(query)
         }

@@ -1,14 +1,17 @@
 package com.bencestumpf.itunessample.presentation.details
 
+import android.util.Log
 import android.widget.TextView
 import butterknife.BindView
+import butterknife.OnClick
 import com.bencestumpf.itunessample.R
 import com.bencestumpf.itunessample.di.Injector
+import com.bencestumpf.itunessample.domain.model.Song
 import com.bencestumpf.itunessample.presentation.common.MVPActivity
 
 class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsView {
-    companion object {
 
+    companion object {
         const val EXTRA_SONG_ID = "EXTRA_SONG_ID"
     }
 
@@ -38,5 +41,23 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
 
     override fun showError() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showContent(song: Song) {
+        title.text = song.title
+        album.text = song.album
+        artist.text = song.artistName
+    }
+
+    @OnClick(R.id.song_details_next)
+    fun onNextClick() {
+        Log.d("STUMI", "On next click")
+        presenter.onNextClick()
+    }
+
+    @OnClick(R.id.song_details_previous)
+    fun onPreviousClick() {
+        Log.d("STUMI", "onPreviousClick")
+        presenter.onPreviousClick()
     }
 }
