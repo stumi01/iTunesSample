@@ -2,6 +2,7 @@ package com.bencestumpf.itunessample.presentation.search
 
 import android.util.Log
 import com.bencestumpf.itunessample.di.scopes.ActivityScope
+import com.bencestumpf.itunessample.domain.model.Song
 import com.bencestumpf.itunessample.domain.usecases.SearchForQuery
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -16,7 +17,6 @@ class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQ
     var view: SearchView? = null
 
     fun doSearch(query: String) {
-        Log.d("STUMI", "Busy doing search $query")
         view?.let {
             it.showLoading()
             execute(searchForQuery.withParams(query), this::onDataArrived, this::onError)
@@ -28,15 +28,15 @@ class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQ
         Log.d("STUMI", "On Error")
     }
 
-    private fun onDataArrived(data: List<String>) {
-        Log.d("STUMI", "onDataArrived " + data)
+    private fun onDataArrived(data: List<Song>) {
+        Log.d("STUMI", "onDataArrived $data")
         view?.showContent(data)
 
     }
 
     fun execute(
         usecase: SearchForQuery,
-        onNext: (List<String>) -> Unit,
+        onNext: (List<Song>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         disposables.add(
