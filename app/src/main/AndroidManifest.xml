@@ -24,6 +24,7 @@
                        android:resource="@xml/searchable"/>
 
         </activity>
+        <activity android:name=".presentation.details.DetailsActivity"></activity>
     </application>
 
 </manifest>

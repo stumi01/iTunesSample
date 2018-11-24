@@ -8,7 +8,8 @@ import com.hannesdorfmann.annotatedadapter.annotation.ViewField
 import com.hannesdorfmann.annotatedadapter.annotation.ViewType
 import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter
 
-class SongsAdapter(context: Context) : SupportAnnotatedAdapter(context), SongsAdapterBinder {
+class SongsAdapter(context: Context, private val onSongClick: (Long) -> Unit) : SupportAnnotatedAdapter(context),
+    SongsAdapterBinder {
     private val songs: ArrayList<Song> = ArrayList()
 
     @JvmField
@@ -29,11 +30,11 @@ class SongsAdapter(context: Context) : SupportAnnotatedAdapter(context), SongsAd
     override fun bindViewHolder(vh: SongsAdapterHolders.SongRowViewHolder?, position: Int) {
         vh?.let {
             val song = songs[position]
-            it.title.text = song.title
-            it.artist.text = song.artistName
-            it.details.text = song.genre
-            it.album.text = song.album
-
+            it.title.text = song?.title
+            it.artist.text = song?.artistName
+            it.details.text = song?.genre
+            it.album.text = song?.album
+            it.itemView.setOnClickListener { onSongClick.invoke(song.trackId) }
         }
     }
 

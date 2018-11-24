@@ -4,17 +4,11 @@ import android.util.Log
 import com.bencestumpf.itunessample.di.scopes.ActivityScope
 import com.bencestumpf.itunessample.domain.model.Song
 import com.bencestumpf.itunessample.domain.usecases.SearchForQuery
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.bencestumpf.itunessample.presentation.common.MVPPresenter
 import javax.inject.Inject
 
 @ActivityScope
-class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQuery) {
-
-    var disposables: CompositeDisposable = CompositeDisposable()
-
-    var view: SearchView? = null
+class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQuery) : MVPPresenter<SearchView>() {
 
     fun doSearch(query: String) {
         view?.let {
@@ -34,31 +28,8 @@ class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQ
 
     }
 
-    fun execute(
-        usecase: SearchForQuery,
-        onNext: (List<Song>) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        disposables.add(
-            usecase.getSubscribable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext, onError)
-        )
+    public fun onSongClick(songID: Long) {
+        view?.navigateToDetailsView(songID)
     }
-
-    fun onPause() {
-        disposables.dispose()
-        disposables = CompositeDisposable()
-    }
-
-    fun attach(view: SearchView) {
-        this.view = view
-    }
-
-    fun detach() {
-        view = null
-    }
-
 
 }

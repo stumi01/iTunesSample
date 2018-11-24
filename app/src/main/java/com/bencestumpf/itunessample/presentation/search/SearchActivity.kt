@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,16 +12,15 @@ import android.view.Menu
 import android.view.View
 import android.widget.SearchView
 import butterknife.BindView
-import butterknife.ButterKnife
 import com.bencestumpf.itunessample.R
 import com.bencestumpf.itunessample.di.Injector
 import com.bencestumpf.itunessample.domain.model.Song
-import javax.inject.Inject
+import com.bencestumpf.itunessample.presentation.common.MVPActivity
+import com.bencestumpf.itunessample.presentation.details.DetailsActivity
+import com.bencestumpf.itunessample.presentation.details.DetailsActivity.Companion.EXTRA_SONG_ID
+import com.bencestumpf.itunessample.presentation.search.SearchView as InnerSearchView
 
-class SearchActivity : AppCompatActivity(), com.bencestumpf.itunessample.presentation.search.SearchView {
-
-    @Inject
-    lateinit var presenter: SearchPresenter
+class SearchActivity : MVPActivity<SearchPresenter, InnerSearchView>(), InnerSearchView {
 
     @BindView(R.id.search_swipeRefresh)
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -34,25 +32,40 @@ class SearchActivity : AppCompatActivity(), com.bencestumpf.itunessample.present
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
+        handleSearchIntentIfExists(intent)
+    }
+
+    override fun injectDependencies() {
         Injector.getAppComponent()
             .searchComponent()
             .inject(this)
-        presenter.attach(this)
+    }
 
+    override fun setupView() {
         setupRecycler()
-
-        handleSearchIntentIfExists(intent)
     }
 
-    override fun onDestroy() {
-        presenter.detach()
-        super.onDestroy()
+    private fun setupRecycler() {
+        adapter = SongsAdapter(this, presenter::onSongClick)
+        searchRecyclerView.layoutManager = LinearLayoutManager(this)
+        searchRecyclerView.isNestedScrollingEnabled = false
+        searchRecyclerView.adapter = adapter
+        searchRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
+
+    override fun getLayoutId(): Int = R.layout.activity_main
+
+    override fun getView(): InnerSearchView = this
 
     override fun onNewIntent(intent: Intent) {
         handleSearchIntentIfExists(intent)
+    }
+
+    private fun handleSearchIntentIfExists(intent: Intent) {
+        if (Intent.ACTION_SEARCH == intent.action) {
+            val query = intent.getStringExtra(SearchManager.QUERY)
+            presenter.doSearch(query)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,13 +75,6 @@ class SearchActivity : AppCompatActivity(), com.bencestumpf.itunessample.present
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true
-    }
-
-    private fun handleSearchIntentIfExists(intent: Intent) {
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            presenter.doSearch(query)
-        }
     }
 
     override fun showLoading() {
@@ -82,11 +88,10 @@ class SearchActivity : AppCompatActivity(), com.bencestumpf.itunessample.present
         adapter.setData(data)
     }
 
-    private fun setupRecycler() {
-        adapter = SongsAdapter(this)
-        searchRecyclerView.layoutManager = LinearLayoutManager(this)
-        searchRecyclerView.isNestedScrollingEnabled = false
-        searchRecyclerView.adapter = adapter
-        searchRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+    override fun navigateToDetailsView(songID: Long) {
+        startActivity(Intent(this, DetailsActivity::class.java).apply {
+            putExtra(EXTRA_SONG_ID, songID)
+        })
     }
+
 }
