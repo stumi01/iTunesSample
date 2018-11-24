@@ -16,7 +16,7 @@ class SongDataStore @Inject constructor(private val apiService: ITunesApiService
     override fun searchSongs(query: String): Single<List<Song>> {
         return apiService.search(query, ENTITY_SONG).map {
             if (it.isSuccessful) {
-                return@map it.body()?.results?.map(this::mapRepo)
+                return@map it.body()?.results?.map(this::mapRepo)!!.filter { song -> song.title != null }
             }
             throw NetworkErrorException("Error happened searching for songs with query: $query")
         }

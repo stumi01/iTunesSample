@@ -7,17 +7,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetSong @Inject constructor(private val songRepository: SongRepository) : Usecase<Song> {
-
-    private var songID: Long = -1
-
-    fun withParams(songID: Long): GetSong {
-        this.songID = songID
-        return this
-    }
+class GetSong @Inject constructor(private val songRepository: SongRepository) : Usecase<Long, Song>() {
 
     override fun getSubscribable(): Single<Song> {
-        return songRepository.getSong(songID)
+        return songRepository.getSong(parameter!!)
     }
 
 }

@@ -7,26 +7,19 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SkipSong @Inject constructor(private val songRepository: SongRepository) : Usecase<Song> {
-
-    private lateinit var direction: Direction
-    private var currentSong: Long = -1
-
-    fun withParams(direction: Direction, currentSong: Long): SkipSong {
-        this.direction = direction
-        this.currentSong = currentSong
-        return this
-    }
-
+class SkipSong @Inject constructor(private val songRepository: SongRepository) : Usecase<SkipSong.Parameter, Song>() {
 
     override fun getSubscribable(): Single<Song> =
-        when (direction) {
-            SkipSong.Direction.NEXT -> songRepository.getNextSong(currentSong)
-            SkipSong.Direction.PREVIOUS -> songRepository.getPreviousSong(currentSong)
+        when (parameter!!.direction) {
+            SkipSong.Direction.NEXT -> songRepository.getNextSong(parameter!!.currentSong)
+            SkipSong.Direction.PREVIOUS -> songRepository.getPreviousSong(parameter!!.currentSong)
         }
+
 
     enum class Direction {
         NEXT, PREVIOUS
     }
+
+    class Parameter(var direction: Direction, var currentSong: Long)
 
 }

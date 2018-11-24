@@ -21,7 +21,7 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
     }
 
     private fun getSong(songID: Long) {
-        execute(getSong.withParams(songID), this::onSongArrived, this::onError)
+        execute(getSong, songID, this::onSongArrived, this::onError)
     }
 
     private fun onSongArrived(song: Song) {
@@ -30,7 +30,7 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
     }
 
     fun onNextClick() {
-        execute(skipSong.withParams(SkipSong.Direction.NEXT, currentSong), this::onSongArrived, this::onError)
+        execute(skipSong, SkipSong.Parameter(SkipSong.Direction.NEXT, currentSong), this::onSongArrived, this::onError)
     }
 
     private fun onError(thorwable: Throwable) {
@@ -38,7 +38,12 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
     }
 
     fun onPreviousClick() {
-        execute(skipSong.withParams(SkipSong.Direction.PREVIOUS, currentSong), this::onSongArrived, this::onError)
+        execute(
+            skipSong,
+            SkipSong.Parameter(SkipSong.Direction.PREVIOUS, currentSong),
+            this::onSongArrived,
+            this::onError
+        )
     }
 
 }

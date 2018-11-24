@@ -20,6 +20,7 @@ import com.bencestumpf.itunessample.presentation.details.DetailsActivity
 import com.bencestumpf.itunessample.presentation.details.DetailsActivity.Companion.EXTRA_SONG_ID
 import com.bencestumpf.itunessample.presentation.search.SearchView as InnerSearchView
 
+
 class SearchActivity : MVPActivity<SearchPresenter, InnerSearchView>(), InnerSearchView {
 
     @BindView(R.id.search_swipeRefresh)
@@ -75,6 +76,10 @@ class SearchActivity : MVPActivity<SearchPresenter, InnerSearchView>(), InnerSea
         (menu.findItem(R.id.search).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
+        (menu.findItem(R.id.sort_genre)).setOnMenuItemClickListener { presenter.onGenreSort();true }
+        (menu.findItem(R.id.sort_length)).setOnMenuItemClickListener { presenter.onLengthSort();true }
+        (menu.findItem(R.id.sort_price)).setOnMenuItemClickListener { presenter.onPriceSort();true }
+
         return true
     }
 

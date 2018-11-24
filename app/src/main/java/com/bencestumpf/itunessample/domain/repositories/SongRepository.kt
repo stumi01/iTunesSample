@@ -17,6 +17,18 @@ class SongRepository(private val remote: Remote, private val cache: Cache) {
         return cache.getPreviousSong(currentSongID)
     }
 
+    fun sortByGenre(): Single<List<Song>> {
+        return cache.sortByGenre()
+    }
+
+    fun sortByLength(): Single<List<Song>> {
+        return cache.sortByLength()
+    }
+
+    fun sortByPrice(): Single<List<Song>> {
+        return cache.sortByPrice()
+    }
+
     interface Remote {
         fun searchSongs(query: String): Single<List<Song>>
     }
@@ -26,7 +38,9 @@ class SongRepository(private val remote: Remote, private val cache: Cache) {
         fun update(songs: List<Song>)
         fun getNextSong(currentSongID: Long): Single<Song>
         fun getPreviousSong(currentSongID: Long): Single<Song>
+        fun sortByGenre(): Single<List<Song>>
+        fun sortByLength(): Single<List<Song>>
+        fun sortByPrice(): Single<List<Song>>
     }
-
 
 }

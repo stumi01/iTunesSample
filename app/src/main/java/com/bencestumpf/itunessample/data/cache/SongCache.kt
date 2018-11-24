@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SongCache @Inject constructor() : SongRepository.Cache {
+
     private val songs = ArrayList<Song>()
 
     override fun update(songs: List<Song>) {
@@ -56,6 +57,19 @@ class SongCache @Inject constructor() : SongRepository.Cache {
             songs[indexOfPrevious]
         }
     }
+
+    override fun sortByGenre(): Single<List<Song>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sortByLength(): Single<List<Song>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sortByPrice(): Single<List<Song>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }
 

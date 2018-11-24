@@ -7,17 +7,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchForQuery @Inject constructor(private val songRepository: SongRepository) : Usecase<List<Song>> {
-
-    private lateinit var query: String
-
-    fun withParams(query: String): SearchForQuery {
-        this.query = query
-        return this
-    }
+class SearchForQuery @Inject constructor(private val songRepository: SongRepository) : Usecase<String, List<Song>>() {
 
     override fun getSubscribable(): Single<List<Song>> {
-        return songRepository.searchWith(query)
+        return songRepository.searchWith(parameter!!)
     }
 
 }

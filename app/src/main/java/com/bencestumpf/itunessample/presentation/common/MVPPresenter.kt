@@ -15,13 +15,14 @@ abstract class MVPPresenter<V : MVPView> {
         this.view = view
     }
 
-    fun <ResultType> execute(
-        usecase: Usecase<ResultType>,
+    fun <Parameter, ResultType> execute(
+        usecase: Usecase<Parameter, ResultType>,
+        parameter: Parameter,
         onNext: (ResultType) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         disposables.add(
-            usecase.getSubscribable()
+            usecase.withParams(parameter).getSubscribable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext, onError)

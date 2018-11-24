@@ -4,16 +4,20 @@ import android.util.Log
 import com.bencestumpf.itunessample.di.scopes.ActivityScope
 import com.bencestumpf.itunessample.domain.model.Song
 import com.bencestumpf.itunessample.domain.usecases.SearchForQuery
+import com.bencestumpf.itunessample.domain.usecases.SortSongs
 import com.bencestumpf.itunessample.presentation.common.MVPPresenter
 import javax.inject.Inject
 
 @ActivityScope
-class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQuery) : MVPPresenter<SearchView>() {
+class SearchPresenter @Inject constructor(
+    private val searchForQuery: SearchForQuery,
+    private val sortSongs: SortSongs
+) : MVPPresenter<SearchView>() {
 
     fun doSearch(query: String) {
         view?.let {
             it.showLoading()
-            execute(searchForQuery.withParams(query), this::onDataArrived, this::onError)
+            execute(searchForQuery, query, this::onDataArrived, this::onError)
         }
 
     }
@@ -28,8 +32,20 @@ class SearchPresenter @Inject constructor(private val searchForQuery: SearchForQ
 
     }
 
-    public fun onSongClick(songID: Long) {
+    fun onSongClick(songID: Long) {
         view?.navigateToDetailsView(songID)
+    }
+
+    fun onGenreSort() {
+        execute(sortSongs, SortSongs.Parameter(SortSongs.Sort.GENRE), this::onDataArrived, this::onError)
+    }
+
+    fun onLengthSort() {
+        execute(sortSongs, SortSongs.Parameter(SortSongs.Sort.LENGTH), this::onDataArrived, this::onError)
+    }
+
+    fun onPriceSort() {
+        execute(sortSongs, SortSongs.Parameter(SortSongs.Sort.PRICE), this::onDataArrived, this::onError)
     }
 
 }
