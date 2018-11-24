@@ -52,6 +52,10 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp3Version"
 
+    implementation ("com.github.bumptech.glide:glide:4.8.0") {
+        exclude group: "com.android.support"
+    }
+
     //DI
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
