@@ -1,5 +1,6 @@
 package com.bencestumpf.itunessample.di.modules
 
+import com.bencestumpf.itunessample.data.net.services.ITunesApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -28,6 +29,7 @@ class RetrofitModule {
     @Singleton
     fun providesGson(): Gson {
         return GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
             .create()
     }
 
@@ -37,7 +39,13 @@ class RetrofitModule {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder().addInterceptor(logInterceptor).build()
-
     }
+
+    @Provides
+    @Singleton
+    fun providesITunesApiService(retrofit: Retrofit): ITunesApiService {
+        return retrofit.create(ITunesApiService::class.java)
+    }
+
 
 }

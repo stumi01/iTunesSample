@@ -1,12 +1,13 @@
 package com.bencestumpf.itunessample.domain.usecases
 
 import com.bencestumpf.itunessample.domain.model.Song
+import com.bencestumpf.itunessample.domain.repositories.SongRepository
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchForQuery @Inject constructor() {
+class SearchForQuery @Inject constructor(private val songRepository: SongRepository) {
     private lateinit var query: String
 
     fun withParams(query: String): SearchForQuery {
@@ -15,10 +16,6 @@ class SearchForQuery @Inject constructor() {
     }
 
     fun getSubscribable(): Single<List<Song>> {
-        val song = Song(
-            "Title", "Artist", "details", "album", "releaseData",
-            "cover", "length", "genre", "price"
-        )
-        return Single.just(listOf(song, song, song, song, song, song, song))
+        return songRepository.searchWith(query)
     }
 }

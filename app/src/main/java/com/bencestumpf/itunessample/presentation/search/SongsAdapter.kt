@@ -30,8 +30,8 @@ class SongsAdapter(context: Context) : SupportAnnotatedAdapter(context), SongsAd
         vh?.let {
             val song = songs[position]
             it.title.text = song.title
-            it.artist.text = song.artist
-            it.details.text = song.details
+            it.artist.text = song.artistName
+            it.details.text = song.genre
             it.album.text = song.album
 
         }
