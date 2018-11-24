@@ -59,22 +59,26 @@ class SongCache @Inject constructor() : SongRepository.Cache {
     }
 
     override fun sortByGenre(): Single<List<Song>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return songs.sortAndGetAsSingle { it.genre }
     }
 
     override fun sortByLength(): Single<List<Song>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return songs.sortAndGetAsSingle { it.trackTimeMillis }
     }
 
     override fun sortByPrice(): Single<List<Song>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return songs.sortAndGetAsSingle { it.trackPrice }
     }
-
 
 }
 
 private fun java.util.ArrayList<Song>.findSongById(searchedSongId: Long): Song? =
     this.find { song -> song.trackId == searchedSongId }
 
+private inline fun <T : Comparable<T>> java.util.ArrayList<Song>.sortAndGetAsSingle(crossinline selector: (Song) -> T?): Single<List<Song>> =
+    Single.create {
+        this.sortBy(selector)
+        it.onSuccess(this)
+    }
 
 class SongNotFoundException(message: String) : Exception(message)

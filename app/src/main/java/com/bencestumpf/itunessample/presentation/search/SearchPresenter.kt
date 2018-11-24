@@ -19,7 +19,6 @@ class SearchPresenter @Inject constructor(
             it.showLoading()
             execute(searchForQuery, query, this::onDataArrived, this::onError)
         }
-
     }
 
     private fun onError(error: Throwable) {
