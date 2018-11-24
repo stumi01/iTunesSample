@@ -32,19 +32,26 @@
                 android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp" tools:text="Artist"/>
         <Button
-                android:text="Next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/song_details_next" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/baseline_skip_next_24"/>
         <Button
-                android:text="Prev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/song_details_previous" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/baseline_skip_previous_24"/>
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="?attr/actionModeShareDrawable"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp" app:layout_constraintBottom_toTopOf="@+id/song_details_next"
+                android:id="@+id/song_details_share"/>
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

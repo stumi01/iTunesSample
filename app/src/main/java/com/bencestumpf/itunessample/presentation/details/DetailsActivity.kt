@@ -1,6 +1,6 @@
 package com.bencestumpf.itunessample.presentation.details
 
-import android.util.Log
+import android.support.v4.app.ShareCompat
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
@@ -51,13 +51,24 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
 
     @OnClick(R.id.song_details_next)
     fun onNextClick() {
-        Log.d("STUMI", "On next click")
         presenter.onNextClick()
     }
 
     @OnClick(R.id.song_details_previous)
     fun onPreviousClick() {
-        Log.d("STUMI", "onPreviousClick")
         presenter.onPreviousClick()
     }
+
+    @OnClick(R.id.song_details_share)
+    fun onShareClick() {
+        presenter.onShareClick()
+    }
+
+    override fun shareSong() {
+        ShareCompat.IntentBuilder.from(this)
+            .setText("Hey check out this song: ${artist.text} - ${title.text} ")
+            .setType("text/plain")
+            .startChooser()
+    }
+
 }

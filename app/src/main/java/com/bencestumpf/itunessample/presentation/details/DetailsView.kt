@@ -6,4 +6,5 @@ import com.bencestumpf.itunessample.presentation.common.MVPView
 interface DetailsView : MVPView {
     fun showError()
     fun showContent(song: Song)
+    fun shareSong()
 }

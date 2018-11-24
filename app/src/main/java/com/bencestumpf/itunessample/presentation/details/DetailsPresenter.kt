@@ -46,4 +46,8 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
         )
     }
 
+    fun onShareClick() {
+        view?.shareSong()
+    }
+
 }

@@ -30,10 +30,11 @@ class SongsAdapter(context: Context, private val onSongClick: (Long) -> Unit) : 
     override fun bindViewHolder(vh: SongsAdapterHolders.SongRowViewHolder?, position: Int) {
         vh?.let {
             val song = songs[position]
-            it.title.text = song.title
-            it.artist.text = song.artistName
-            it.details.text = song.genre
-            it.album.text = song.album
+            it.title.text = song.title.orEmpty()
+            it.artist.text = song.artistName.orEmpty()
+            it.details.text = song.genre.orEmpty()
+            it.album.text = song.album.orEmpty()
+
             it.itemView.setOnClickListener { onSongClick.invoke(song.trackId) }
         }
     }
