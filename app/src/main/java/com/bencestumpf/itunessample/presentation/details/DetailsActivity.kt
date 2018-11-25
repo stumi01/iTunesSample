@@ -63,6 +63,11 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
         super.onDestroy()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     override fun showError() {
         content.visibility = View.GONE
         errorView.visibility = View.VISIBLE
