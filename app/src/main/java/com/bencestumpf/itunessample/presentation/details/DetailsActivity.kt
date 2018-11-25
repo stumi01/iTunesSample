@@ -106,7 +106,7 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
 
     override fun shareSong() {
         ShareCompat.IntentBuilder.from(this)
-            .setText("Hey check out this song: ${artist.text} - ${title.text} ")
+            .setText(getString(R.string.share_message, artist.text, title.text))
             .setType("text/plain")
             .startChooser()
     }

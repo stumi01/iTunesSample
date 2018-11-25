@@ -11,7 +11,8 @@ import com.hannesdorfmann.annotatedadapter.annotation.ViewType
 import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter
 import java.text.SimpleDateFormat
 
-class SongsAdapter(context: Context, private val onSongClick: (Long) -> Unit) : SupportAnnotatedAdapter(context),
+class SongsAdapter(private val context: Context, private val onSongClick: (Long) -> Unit) :
+    SupportAnnotatedAdapter(context),
     SongsAdapterBinder {
     private val songs: ArrayList<Song> = ArrayList()
 
@@ -45,7 +46,7 @@ class SongsAdapter(context: Context, private val onSongClick: (Long) -> Unit) : 
             it.album?.text = song.album
             it.genre?.text = song.genre
             it.releaseDate?.text = dateFormat.format(song.releaseDate)
-            it.price?.text = "${song.trackPrice} ${song.currency}"
+            it.price?.text = context.getString(R.string.price_with_holders, song.trackPrice, song.currency)
 
 
             Glide.with(it.image)
