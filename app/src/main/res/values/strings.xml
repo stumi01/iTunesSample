@@ -16,5 +16,5 @@
         there.
     </string>
     <string name="share_message">Hey check out this song: %1$s - %2$s</string>
-    <string name="price_with_holders">%1$f %2$s</string>
+    <string name="price_with_holders">%1$.2f %2$s</string>
 </resources>

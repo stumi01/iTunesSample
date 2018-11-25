@@ -1,8 +1,10 @@
 package com.bencestumpf.itunessample.domain.repositories
 
 import com.bencestumpf.itunessample.domain.model.Song
+import com.bencestumpf.itunessample.helper.OpenClass
 import io.reactivex.Single
 
+@OpenClass
 class SongRepository(private val remote: Remote, private val cache: Cache) {
 
     fun searchWith(query: String): Single<List<Song>> = remote.searchSongs(query).doOnSuccess { cache.update(it) }

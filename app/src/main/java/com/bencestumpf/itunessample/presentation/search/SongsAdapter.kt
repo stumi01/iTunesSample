@@ -68,5 +68,9 @@ class SongsAdapter(private val context: Context, private val onSongClick: (Long)
 private fun Long.toReadable(): String {
     val minutes = this / 1000 / 60
     val seconds = this / 1000 % 60
-    return "$minutes:$seconds"
+    return "$minutes:${addLeadingZeroIfNecessary(seconds)}"
+}
+
+fun addLeadingZeroIfNecessary(seconds: Long): String {
+    return if (seconds < 10) "0$seconds" else seconds.toString()
 }
