@@ -36,7 +36,6 @@ abstract class MVPPresenter<V : MVPView> {
     }
 
     fun detachView() {
-
         view = null
     }
 

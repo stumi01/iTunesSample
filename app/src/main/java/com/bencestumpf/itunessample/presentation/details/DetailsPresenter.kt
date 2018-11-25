@@ -13,6 +13,7 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
     MVPPresenter<DetailsView>() {
 
     private var currentSong = -1L
+    private var playerPaused: Boolean = false
 
     fun setup(songID: Long?) {
         songID?.let {
@@ -49,6 +50,31 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
 
     fun onShareClick() {
         view?.shareSong()
+    }
+
+    fun onPlayClick() {
+        if (playerPaused) {
+            playerPaused = false
+            view?.showPauseButton()
+            view?.returnSong()
+        } else {
+            execute(getSong, currentSong, {
+                playerPaused = false
+                view?.showPauseButton()
+                view?.playSong(it.previewUrl!!)
+            }, this::onError)
+        }
+    }
+
+    fun onStopped() {
+        playerPaused = false
+        view?.showPlayButton()
+    }
+
+    fun onPauseClick() {
+        playerPaused = true
+        view?.showPlayButton()
+        view?.pauseSong()
     }
 
 }

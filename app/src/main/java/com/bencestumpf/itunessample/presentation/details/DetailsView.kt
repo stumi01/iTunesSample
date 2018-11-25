@@ -7,4 +7,9 @@ interface DetailsView : MVPView {
     fun showError()
     fun showContent(song: Song)
     fun shareSong()
+    fun playSong(previewUrl: String)
+    fun showPauseButton()
+    fun showPlayButton()
+    fun pauseSong()
+    fun returnSong()
 }
