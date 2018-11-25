@@ -8,6 +8,7 @@ import android.os.PowerManager
 import android.support.v4.app.ShareCompat
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
@@ -15,6 +16,7 @@ import com.bencestumpf.itunessample.R
 import com.bencestumpf.itunessample.di.Injector
 import com.bencestumpf.itunessample.domain.model.Song
 import com.bencestumpf.itunessample.presentation.common.MVPActivity
+import com.bumptech.glide.Glide
 
 class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsView {
     companion object {
@@ -28,6 +30,8 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
     @BindView(R.id.content_view)
     lateinit var content: View
 
+    @BindView(R.id.song_details_artwork)
+    lateinit var artwork: ImageView
     @BindView(R.id.song_details_title)
     lateinit var title: TextView
     @BindView(R.id.song_details_album)
@@ -71,16 +75,19 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
         title.text = song.title
         album.text = song.album
         artist.text = song.artistName
+        Glide.with(this)
+            .load(song.artworkUrl)
+            .into(artwork)
     }
 
     @OnClick(R.id.song_details_next)
     fun onNextClick() {
-        presenter.onNextClick()
+        presenter.onNextClick(mediaPlayer?.isPlaying == true)
     }
 
     @OnClick(R.id.song_details_previous)
     fun onPreviousClick() {
-        presenter.onPreviousClick()
+        presenter.onPreviousClick(mediaPlayer?.isPlaying == true)
     }
 
     @OnClick(R.id.song_details_share)
@@ -134,5 +141,9 @@ class DetailsActivity : MVPActivity<DetailsPresenter, DetailsView>(), DetailsVie
 
     override fun returnSong() {
         mediaPlayer?.start()
+    }
+
+    override fun releaseMediaPlayer() {
+        mediaPlayer?.release()
     }
 }

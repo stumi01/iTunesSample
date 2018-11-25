@@ -22,28 +22,39 @@ class DetailsPresenter @Inject constructor(private val getSong: GetSong, private
     }
 
     private fun getSong(songID: Long) {
-        execute(getSong, songID, this::onSongArrived, this::onError)
+        execute(getSong, songID, { onSongArrived(it, false) }, this::onError)
     }
 
-    private fun onSongArrived(song: Song) {
+    private fun onSongArrived(song: Song, playing: Boolean) {
         currentSong = song.trackId
         view?.showContent(song)
+        if (playing) {
+            view?.playSong(song.previewUrl!!)
+            playerPaused = false
+        }
     }
 
-    fun onNextClick() {
-        execute(skipSong, SkipSong.Parameter(SkipSong.Direction.NEXT, currentSong), this::onSongArrived, this::onError)
+    fun onNextClick(isPlaying: Boolean) {
+        playerPaused = false
+        execute(
+            skipSong,
+            SkipSong.Parameter(SkipSong.Direction.NEXT, currentSong),
+            { onSongArrived(it, isPlaying) },
+            this::onError
+        )
     }
 
-    private fun onError(thorwable: Throwable) {
-        Log.e(DetailsPresenter::class.java.simpleName, "ERROR", thorwable)
+    private fun onError(throwable: Throwable) {
+        Log.e(DetailsPresenter::class.java.simpleName, "ERROR", throwable)
         view?.showError()
     }
 
-    fun onPreviousClick() {
+    fun onPreviousClick(isPlaying: Boolean) {
+        playerPaused = false
         execute(
             skipSong,
             SkipSong.Parameter(SkipSong.Direction.PREVIOUS, currentSong),
-            this::onSongArrived,
+            { onSongArrived(it, isPlaying) },
             this::onError
         )
     }

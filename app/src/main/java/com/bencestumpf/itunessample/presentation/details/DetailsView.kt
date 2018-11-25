@@ -12,4 +12,5 @@ interface DetailsView : MVPView {
     fun showPlayButton()
     fun pauseSong()
     fun returnSong()
+    fun releaseMediaPlayer()
 }

@@ -39,20 +39,20 @@ class SongsAdapter(context: Context, private val onSongClick: (Long) -> Unit) : 
     override fun bindViewHolder(vh: SongsAdapterHolders.SongRowViewHolder?, position: Int) {
         vh?.let {
             val song = songs[position]
-            it?.title.text = song.title
-            it?.length.text = song.trackTimeMillis?.toReadable()
-            it?.artist.text = song.artistName
-            it?.album.text = song.album
-            it?.genre.text = song.genre
-            it?.releaseDate.text = dateFormat.format(song.releaseDate)
-            it?.price.text = "${song.trackPrice} ${song.currency}"
+            it.title?.text = song.title
+            it.length?.text = song.trackTimeMillis?.toReadable()
+            it.artist?.text = song.artistName
+            it.album?.text = song.album
+            it.genre?.text = song.genre
+            it.releaseDate?.text = dateFormat.format(song.releaseDate)
+            it.price?.text = "${song.trackPrice} ${song.currency}"
 
 
             Glide.with(it.image)
                 .load(song.artworkThumbnailUrl)
                 .into(it.image)
 
-            it?.itemView.setOnClickListener { onSongClick.invoke(song.trackId) }
+            it.itemView?.setOnClickListener { onSongClick.invoke(song.trackId) }
         }
     }
 
